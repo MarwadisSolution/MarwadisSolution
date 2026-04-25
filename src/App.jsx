@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
+import PrivacyPolicy from "./PrivacyPolicy";
 
 export default function App() {
+  const [showPrivacy, setShowPrivacy] = useState(false);
+
+  if (showPrivacy) {
+    return (
+      <div className="container">
+        <PrivacyPolicy />
+        <footer className="footer" style={{ textAlign: 'center', padding: '20px' }}>
+          <button onClick={() => setShowPrivacy(false)} style={{ background: 'none', border: 'none', color: '#007bff', cursor: 'pointer', textDecoration: 'underline' }}>
+            Back to Home
+          </button>
+        </footer>
+      </div>
+    );
+  }
+
   return (
     <div className="container">
       {/* Navbar */}
@@ -105,6 +121,14 @@ export default function App() {
       {/* Footer */}
       <footer className="footer">
         <p>© 2026 Marwadis Solution. All rights reserved.</p>
+        <p>
+          <button 
+            onClick={() => setShowPrivacy(true)} 
+            style={{ background: 'none', border: 'none', color: '#666', cursor: 'pointer', textDecoration: 'underline', fontSize: '0.9rem' }}
+          >
+            Privacy Policy
+          </button>
+        </p>
       </footer>
     </div>
   );
