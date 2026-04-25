@@ -32,6 +32,7 @@ body {
   cursor: pointer;
   font: inherit;
   padding: 0;
+  text-decoration: none;
 }
 
 .navbar .nav-link:hover {
@@ -129,6 +130,7 @@ body {
 }
 
 .back-link {
+  display: inline-block;
   background: none;
   border: 1px solid #38bdf8;
   color: #38bdf8;
@@ -136,6 +138,7 @@ body {
   border-radius: 30px;
   cursor: pointer;
   font: inherit;
+  text-decoration: none;
   transition: background 0.2s ease, color 0.2s ease;
 }
 

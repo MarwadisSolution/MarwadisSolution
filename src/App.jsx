@@ -1,26 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
+import { Routes, Route, Link } from "react-router-dom";
 import "./App.css";
 import PrivacyPolicy from "./PrivacyPolicy";
 
-export default function App() {
-  const [showPrivacy, setShowPrivacy] = useState(false);
-
-  if (showPrivacy) {
-    return (
-      <div className="container">
-        <PrivacyPolicy />
-        <footer className="footer">
-          <button onClick={() => setShowPrivacy(false)} className="back-link">
-            ← Back to Home
-          </button>
-        </footer>
-      </div>
-    );
-  }
-
+function Home() {
   return (
     <div className="container">
-      {/* Navbar */}
       <header className="navbar">
         <h1>Marwadis Solution</h1>
         <nav>
@@ -28,13 +13,12 @@ export default function App() {
           <a href="#services">Services</a>
           <a href="#portfolio">Portfolio</a>
           <a href="#contact">Contact</a>
-          <button onClick={() => setShowPrivacy(true)} className="nav-link">
+          <Link to="/privacy" className="nav-link">
             Privacy
-          </button>
+          </Link>
         </nav>
       </header>
 
-      {/* Hero Section */}
       <section id="home" className="hero">
         <h2>Building Apps, Websites & AI Solutions</h2>
         <p>
@@ -46,7 +30,6 @@ export default function App() {
         </button>
       </section>
 
-      {/* Services */}
       <section id="services" className="services">
         <h2>Our Services</h2>
         <div className="cards">
@@ -57,7 +40,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* Portfolio */}
       <section id="portfolio" className="portfolio">
         <h2>Our Portfolio</h2>
 
@@ -88,7 +70,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* Contact */}
       <section id="contact" className="contact">
         <h2>Contact Us</h2>
         <p>Phone: 9552936422</p>
@@ -121,15 +102,36 @@ export default function App() {
         </form>
       </section>
 
-      {/* Footer */}
       <footer className="footer">
         <p>© 2026 Marwadis Solution. All rights reserved.</p>
         <p>
-          <button onClick={() => setShowPrivacy(true)} className="footer-link">
+          <Link to="/privacy" className="footer-link">
             Privacy Policy
-          </button>
+          </Link>
         </p>
       </footer>
     </div>
+  );
+}
+
+function PrivacyPage() {
+  return (
+    <div className="container">
+      <PrivacyPolicy />
+      <footer className="footer">
+        <Link to="/" className="back-link">
+          ← Back to Home
+        </Link>
+      </footer>
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/privacy" element={<PrivacyPage />} />
+    </Routes>
   );
 }
