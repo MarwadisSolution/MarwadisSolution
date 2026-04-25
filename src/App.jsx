@@ -9,9 +9,9 @@ export default function App() {
     return (
       <div className="container">
         <PrivacyPolicy />
-        <footer className="footer" style={{ textAlign: 'center', padding: '20px' }}>
-          <button onClick={() => setShowPrivacy(false)} style={{ background: 'none', border: 'none', color: '#007bff', cursor: 'pointer', textDecoration: 'underline' }}>
-            Back to Home
+        <footer className="footer">
+          <button onClick={() => setShowPrivacy(false)} className="back-link">
+            ← Back to Home
           </button>
         </footer>
       </div>
@@ -28,6 +28,9 @@ export default function App() {
           <a href="#services">Services</a>
           <a href="#portfolio">Portfolio</a>
           <a href="#contact">Contact</a>
+          <button onClick={() => setShowPrivacy(true)} className="nav-link">
+            Privacy
+          </button>
         </nav>
       </header>
 
@@ -122,10 +125,7 @@ export default function App() {
       <footer className="footer">
         <p>© 2026 Marwadis Solution. All rights reserved.</p>
         <p>
-          <button 
-            onClick={() => setShowPrivacy(true)} 
-            style={{ background: 'none', border: 'none', color: '#666', cursor: 'pointer', textDecoration: 'underline', fontSize: '0.9rem' }}
-          >
+          <button onClick={() => setShowPrivacy(true)} className="footer-link">
             Privacy Policy
           </button>
         </p>
