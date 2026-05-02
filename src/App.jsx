@@ -1,38 +1,54 @@
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
+import { Canvas } from "@react-three/fiber";
+import { Float, OrbitControls } from "@react-three/drei";
 import "./App.css";
-import PrivacyPolicy from "./PrivacyPolicy";
-import Scene3D from "./Scene3D";
+
+function Scene3D() {
+  return (
+    <div className="canvas-wrap">
+      <Canvas camera={{ position: [0, 0, 4], fov: 50 }}>
+        <ambientLight intensity={1.2} />
+        <directionalLight position={[2, 2, 2]} intensity={2} />
+
+        <Float speed={2} rotationIntensity={1} floatIntensity={1.2}>
+          <mesh rotation={[0.4, 0.4, 0]}>
+            <icosahedronGeometry args={[1.2, 0]} />
+            <meshStandardMaterial color="#38bdf8" metalness={0.4} roughness={0.15} />
+          </mesh>
+        </Float>
+
+        <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={1.3} />
+      </Canvas>
+    </div>
+  );
+}
 
 function Home() {
   return (
     <div className="container">
       <header className="navbar">
         <div className="brand">
-          <img
-            src="/logo.jpeg"
-            alt="Marwadis Solutions"
-            className="logo"
-          />
+          <img src="./logo.jpeg" alt="Marwadis Solution" className="logo" />
+          <span>Marwadis Solution</span>
         </div>
 
         <nav>
+          <a href="#home">Home</a>
           <a href="#services">Services</a>
           <a href="#portfolio">Portfolio</a>
           <a href="#contact">Contact</a>
-          <Link to="/privacy" className="nav-link">
-            Privacy
-          </Link>
+          <Link to="/privacy">Privacy</Link>
         </nav>
       </header>
 
-      <section className="hero">
+      <section id="home" className="hero">
         <div className="hero-content">
-          <div className="hero-copy">
-            <span className="badge">SaaS • Product Engineering • AI</span>
+          <div>
+            <div className="badge">SaaS • Web • AI • Cloud</div>
 
             <h1>
-              We build scalable digital products that grow businesses.
+              Building modern software products that scale.
             </h1>
 
             <p>
@@ -71,28 +87,49 @@ function Home() {
       <section id="portfolio" className="portfolio">
         <h2>Selected Work</h2>
 
-        <div className="portfolio-card">
-          <h3>Order@VPA</h3>
-          <p>Multi-platform pharmacy commerce product.</p>
-        </div>
+        <div className="portfolio-grid">
+          <div className="portfolio-card">
+            <h3>Order@VPA</h3>
+            <p>Multi-platform pharmacy commerce product.</p>
+          </div>
 
-        <div className="portfolio-card">
-          <h3>Business Website</h3>
-          <p>Conversion-focused digital presence for a client.</p>
+          <div className="portfolio-card">
+            <h3>Business Website</h3>
+            <p>Conversion-focused digital presence for a client.</p>
+          </div>
         </div>
       </section>
 
       <section id="contact" className="contact">
         <h2>Let’s build something useful.</h2>
+
         <p>Email: marwadiservices@outlook.com</p>
         <p>Phone: 9552936422</p>
       </section>
+
+      <footer className="footer">
+        <p>© 2026 Marwadis Solution. All rights reserved.</p>
+      </footer>
     </div>
   );
 }
 
 function PrivacyPage() {
-  return <PrivacyPolicy />;
+  return (
+    <div className="privacy">
+      <h1>Privacy Policy</h1>
+      <p>Effective Date: 25 April 2026</p>
+
+      <p>
+        Marwadis Solution respects your privacy and is committed to protecting
+        your personal and business information.
+      </p>
+
+      <Link to="/" className="secondary-btn">
+        Back to Home
+      </Link>
+    </div>
+  );
 }
 
 export default function App() {
