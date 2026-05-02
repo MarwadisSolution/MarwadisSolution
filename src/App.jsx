@@ -1,4 +1,26 @@
 import React from "react";
+            <p>
+              Apps, SaaS platforms, AI workflows and cloud infrastructure designed for speed,
+              clarity and measurable business outcomes.
+            </p>
+            <div className="hero-actions">
+              <a href="#contact" className="primary-btn">Book a call</a>
+              <a href="#portfolio" className="secondary-btn">View work</a>
+            </div>
+          </div>
+
+          <div className="hero-visual glass-card">
+            <Scene3D />
+          </div>
+        </div>
+      </section>
+
+      <section id="services" className="services">
+        <h2>Services</h2>
+        <div className="cards">
+          <div className="card">SaaS Product Development</div>
+          <div className="card">Web Applications</div>
+          <div className="card">AI Integrations</div>
           <div className="card">Cloud Architecture</div>
         </div>
       </section>
