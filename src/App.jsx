@@ -1,11 +1,53 @@
 import React from "react";
+import { Routes, Route, Link } from "react-router-dom";
+import "./App.css";
+import PrivacyPolicy from "./PrivacyPolicy";
+import Scene3D from "./Scene3D";
+
+function Home() {
+  return (
+    <div className="container">
+      <header className="navbar">
+        <div className="brand">
+          <img
+            src="/logo.jpeg"
+            alt="Marwadis Solutions"
+            className="logo"
+          />
+        </div>
+
+        <nav>
+          <a href="#services">Services</a>
+          <a href="#portfolio">Portfolio</a>
+          <a href="#contact">Contact</a>
+          <Link to="/privacy" className="nav-link">
+            Privacy
+          </Link>
+        </nav>
+      </header>
+
+      <section className="hero">
+        <div className="hero-content">
+          <div className="hero-copy">
+            <span className="badge">SaaS • Product Engineering • AI</span>
+
+            <h1>
+              We build scalable digital products that grow businesses.
+            </h1>
+
             <p>
-              Apps, SaaS platforms, AI workflows and cloud infrastructure designed for speed,
-              clarity and measurable business outcomes.
+              Apps, SaaS platforms, AI workflows and cloud infrastructure
+              designed for speed, clarity and measurable business outcomes.
             </p>
+
             <div className="hero-actions">
-              <a href="#contact" className="primary-btn">Book a call</a>
-              <a href="#portfolio" className="secondary-btn">View work</a>
+              <a href="#contact" className="primary-btn">
+                Book a call
+              </a>
+
+              <a href="#portfolio" className="secondary-btn">
+                View work
+              </a>
             </div>
           </div>
 
@@ -17,6 +59,7 @@ import React from "react";
 
       <section id="services" className="services">
         <h2>Services</h2>
+
         <div className="cards">
           <div className="card">SaaS Product Development</div>
           <div className="card">Web Applications</div>
