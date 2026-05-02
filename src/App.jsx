@@ -14,7 +14,11 @@ function Scene3D() {
         <Float speed={2} rotationIntensity={1} floatIntensity={1.2}>
           <mesh rotation={[0.4, 0.4, 0]}>
             <icosahedronGeometry args={[1.2, 0]} />
-            <meshStandardMaterial color="#38bdf8" metalness={0.4} roughness={0.15} />
+            <meshStandardMaterial
+              color="#38bdf8"
+              metalness={0.4}
+              roughness={0.15}
+            />
           </mesh>
         </Float>
 
@@ -25,6 +29,13 @@ function Scene3D() {
 }
 
 function Home() {
+  const scrollToSection = (id) => {
+    document.getElementById(id)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
   return (
     <div className="container">
       <header className="navbar">
@@ -34,10 +45,10 @@ function Home() {
         </div>
 
         <nav>
-          <a href="#home">Home</a>
-          <a href="#services">Services</a>
-          <a href="#portfolio">Portfolio</a>
-          <a href="#contact">Contact</a>
+          <button onClick={() => scrollToSection("home")}>Home</button>
+          <button onClick={() => scrollToSection("services")}>Services</button>
+          <button onClick={() => scrollToSection("portfolio")}>Portfolio</button>
+          <button onClick={() => scrollToSection("contact")}>Contact</button>
           <Link to="/privacy">Privacy</Link>
         </nav>
       </header>
@@ -47,9 +58,7 @@ function Home() {
           <div>
             <div className="badge">SaaS • Web • AI • Cloud</div>
 
-            <h1>
-              Building modern software products that scale.
-            </h1>
+            <h1>Building modern software products that scale.</h1>
 
             <p>
               Apps, SaaS platforms, AI workflows and cloud infrastructure
@@ -57,13 +66,19 @@ function Home() {
             </p>
 
             <div className="hero-actions">
-              <a href="#contact" className="primary-btn">
+              <button
+                className="primary-btn"
+                onClick={() => scrollToSection("contact")}
+              >
                 Book a call
-              </a>
+              </button>
 
-              <a href="#portfolio" className="secondary-btn">
+              <button
+                className="secondary-btn"
+                onClick={() => scrollToSection("portfolio")}
+              >
                 View work
-              </a>
+              </button>
             </div>
           </div>
 
@@ -103,7 +118,7 @@ function Home() {
       <section id="contact" className="contact">
         <h2>Let’s build something useful.</h2>
 
-        <p>Email: marwadiservices@outlook.com</p>
+        <p>Email: marwadisservices@outlook.com</p>
         <p>Phone: 9552936422</p>
       </section>
 
