@@ -111,12 +111,18 @@ nav a:hover {
   line-height: 1.8;
 }
 
+.hero-note {
+  margin-top: 18px;
+  color: #7dd3fc;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
 .hero-actions {
   display: flex;
   gap: 14px;
   margin-top: 30px;
 }
-
 .primary-btn,
 .secondary-btn {
   padding: 14px 24px;
