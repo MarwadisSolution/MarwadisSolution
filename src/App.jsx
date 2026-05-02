@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
+import PrivacyPolicy from "./PrivacyPolicy";
 import { Canvas } from "@react-three/fiber";
 import { Float, OrbitControls } from "@react-three/drei";
 import "./App.css";
@@ -30,17 +31,24 @@ function Scene3D() {
 
 function Home() {
   const scrollToSection = (id) => {
-    document.getElementById(id)?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
   };
 
   return (
     <div className="container">
       <header className="navbar">
         <div className="brand">
-          <img src="./logo.jpeg" alt="Marwadis Solution" className="logo" />
+          <img
+            src="/MarwadisSolution/logo.jpeg"
+            alt="Marwadis Solution"
+            className="logo"
+          />
           <span>Marwadis Solution</span>
         </div>
 
@@ -117,8 +125,7 @@ function Home() {
 
       <section id="contact" className="contact">
         <h2>Let’s build something useful.</h2>
-
-        <p>Email: marwadisservices@outlook.com</p>
+        <p>Email: marwadiservices@outlook.com</p>
         <p>Phone: 9552936422</p>
       </section>
 
@@ -129,29 +136,11 @@ function Home() {
   );
 }
 
-function PrivacyPage() {
-  return (
-    <div className="privacy">
-      <h1>Privacy Policy</h1>
-      <p>Effective Date: 25 April 2026</p>
-
-      <p>
-        Marwadis Solution respects your privacy and is committed to protecting
-        your personal and business information.
-      </p>
-
-      <Link to="/" className="secondary-btn">
-        Back to Home
-      </Link>
-    </div>
-  );
-}
-
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/privacy" element={<PrivacyPage />} />
+      <Route path="/privacy" element={<PrivacyPolicy />} />
     </Routes>
   );
 }
