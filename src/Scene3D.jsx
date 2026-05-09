@@ -1,148 +1,199 @@
-import React, { useMemo, useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, OrbitControls, Stars } from "@react-three/drei";
-import * as THREE from "three";
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import {
+  Float,
+  Environment,
+  RoundedBox,
+  Sphere,
+  MeshDistortMaterial,
+} from '@react-three/drei'
+import { useRef, useMemo, Suspense } from 'react'
+import * as THREE from 'three'
 
-function CoreOrb() {
-  const ref = useRef();
-  const shellRef = useRef();
-
+/* ----- Laptop ----- */
+function Laptop() {
+  const group = useRef()
   useFrame((state) => {
-    const t = state.clock.elapsedTime;
-
-    if (ref.current) {
-      ref.current.rotation.y = t * 0.25;
-      ref.current.rotation.x = Math.sin(t * 0.4) * 0.15;
-      ref.current.position.y = Math.sin(t * 0.9) * 0.08;
+    if (group.current) {
+      group.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.4) * 0.25
     }
-
-    if (shellRef.current) {
-      shellRef.current.rotation.y = -t * 0.18;
-      shellRef.current.rotation.x = t * 0.08;
-    }
-  });
-
+  })
   return (
-    <group>
-      <Float speed={2} rotationIntensity={0.5} floatIntensity={1.3}>
-        <mesh ref={ref}>
-          <icosahedronGeometry args={[1.25, 2]} />
-          <meshStandardMaterial
-            color="#38bdf8"
-            roughness={0.15}
-            metalness={0.75}
-            emissive="#0ea5e9"
-            emissiveIntensity={0.35}
-          />
-        </mesh>
-      </Float>
-
-      <mesh ref={shellRef} scale={1.45}>
-        <icosahedronGeometry args={[1.25, 1]} />
-        <meshBasicMaterial
-          color="#7dd3fc"
-          wireframe
-          transparent
-          opacity={0.28}
+    <group ref={group} position={[0, -0.3, 0]} rotation={[0.05, 0, 0]}>
+      {/* base */}
+      <RoundedBox args={[3, 0.18, 2]} radius={0.06} smoothness={4} castShadow>
+        <meshStandardMaterial
+          color="#1a1f3a"
+          metalness={0.85}
+          roughness={0.25}
+        />
+      </RoundedBox>
+      {/* keyboard hint */}
+      <mesh position={[0, 0.1, 0.2]}>
+        <planeGeometry args={[2.6, 1.4]} />
+        <meshStandardMaterial
+          color="#0a0e1a"
+          metalness={0.9}
+          roughness={0.4}
         />
       </mesh>
+      {/* screen back */}
+      <group position={[0, 1.05, -0.95]} rotation={[-0.18, 0, 0]}>
+        <RoundedBox args={[3, 2, 0.1]} radius={0.06} smoothness={4} castShadow>
+          <meshStandardMaterial
+            color="#1a1f3a"
+            metalness={0.85}
+            roughness={0.25}
+          />
+        </RoundedBox>
+        {/* glowing screen */}
+        <mesh position={[0, 0, 0.06]}>
+          <planeGeometry args={[2.85, 1.85]} />
+          <meshStandardMaterial
+            color="#3b82f6"
+            emissive="#3b82f6"
+            emissiveIntensity={0.7}
+            toneMapped={false}
+          />
+        </mesh>
+        {/* code-like lines on screen */}
+        {[0.55, 0.35, 0.15, -0.05, -0.25, -0.45, -0.65].map((y, i) => (
+          <mesh key={i} position={[-0.7 + (i % 3) * 0.1, y, 0.07]}>
+            <planeGeometry args={[1 + (i % 3) * 0.4, 0.05]} />
+            <meshBasicMaterial color="#dbeafe" toneMapped={false} />
+          </mesh>
+        ))}
+      </group>
     </group>
-  );
+  )
 }
 
-function Particles() {
-  const ref = useRef();
+/* ----- Phone ----- */
+function Phone() {
+  return (
+    <Float speed={1.8} rotationIntensity={0.6} floatIntensity={0.9}>
+      <group position={[2.6, 0.9, 0.6]} rotation={[0.1, -0.45, 0.18]}>
+        <RoundedBox args={[0.8, 1.6, 0.09]} radius={0.09} smoothness={4}>
+          <meshStandardMaterial
+            color="#0a0e1a"
+            metalness={0.9}
+            roughness={0.15}
+          />
+        </RoundedBox>
+        <mesh position={[0, 0, 0.05]}>
+          <planeGeometry args={[0.7, 1.5]} />
+          <meshStandardMaterial
+            color="#60a5fa"
+            emissive="#3b82f6"
+            emissiveIntensity={0.6}
+            toneMapped={false}
+          />
+        </mesh>
+        {/* notch */}
+        <mesh position={[0, 0.65, 0.052]}>
+          <planeGeometry args={[0.25, 0.06]} />
+          <meshBasicMaterial color="#0a0e1a" />
+        </mesh>
+      </group>
+    </Float>
+  )
+}
 
-  const particles = useMemo(() => {
-    const positions = new Float32Array(180 * 3);
+/* ----- Glowing distorted blob ----- */
+function GlowBlob() {
+  return (
+    <Float speed={1} rotationIntensity={1} floatIntensity={0.6}>
+      <Sphere args={[0.7, 64, 64]} position={[-2.7, 0.6, -1]}>
+        <MeshDistortMaterial
+          color="#3b82f6"
+          emissive="#1e40af"
+          emissiveIntensity={0.6}
+          distort={0.45}
+          speed={2}
+          metalness={0.7}
+          roughness={0.2}
+        />
+      </Sphere>
+    </Float>
+  )
+}
 
-    for (let i = 0; i < 180; i++) {
-      const radius = 2.4 + Math.random() * 1.6;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.random() * Math.PI;
-
-      positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
-      positions[i * 3 + 1] = radius * Math.cos(phi);
-      positions[i * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta);
+/* ----- Ambient particles ----- */
+function Particles({ count = 200 }) {
+  const mesh = useRef()
+  const positions = useMemo(() => {
+    const arr = new Float32Array(count * 3)
+    for (let i = 0; i < count; i++) {
+      arr[i * 3] = (Math.random() - 0.5) * 16
+      arr[i * 3 + 1] = (Math.random() - 0.5) * 10
+      arr[i * 3 + 2] = (Math.random() - 0.5) * 10
     }
-
-    return positions;
-  }, []);
+    return arr
+  }, [count])
 
   useFrame((state) => {
-    if (ref.current) {
-      ref.current.rotation.y = state.clock.elapsedTime * 0.03;
+    if (mesh.current) {
+      mesh.current.rotation.y = state.clock.elapsedTime * 0.04
     }
-  });
+  })
 
   return (
-    <points ref={ref}>
+    <points ref={mesh}>
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          count={particles.length / 3}
-          array={particles}
+          count={count}
+          array={positions}
           itemSize={3}
         />
       </bufferGeometry>
       <pointsMaterial
-        color="#38bdf8"
-        size={0.03}
-        sizeAttenuation
+        size={0.045}
+        color="#93c5fd"
         transparent
-        opacity={0.75}
+        opacity={0.85}
+        sizeAttenuation
       />
     </points>
-  );
+  )
 }
 
-function GroundRing() {
-  const ref = useRef();
-
-  useFrame((state) => {
-    if (ref.current) {
-      ref.current.rotation.z = state.clock.elapsedTime * 0.12;
-    }
-  });
-
-  return (
-    <mesh ref={ref} rotation={[Math.PI / 2, 0, 0]} position={[0, -1.8, 0]}>
-      <torusGeometry args={[1.8, 0.025, 16, 120]} />
-      <meshBasicMaterial color="#38bdf8" transparent opacity={0.45} />
-    </mesh>
-  );
+/* ----- Camera follows mouse subtly ----- */
+function CameraRig() {
+  const { camera, mouse } = useThree()
+  useFrame(() => {
+    camera.position.x += (mouse.x * 0.6 - camera.position.x) * 0.05
+    camera.position.y += (1 + mouse.y * 0.4 - camera.position.y) * 0.05
+    camera.lookAt(0, 0.2, 0)
+  })
+  return null
 }
 
+/* ----- Main scene ----- */
 export default function Scene3D() {
   return (
-    <div className="canvas-wrap">
-      <Canvas camera={{ position: [0, 0, 5], fov: 48 }}>
-        <color attach="background" args={["#020617"]} />
+    <Canvas
+      camera={{ position: [0, 1, 6.5], fov: 45 }}
+      dpr={[1, 2]}
+      gl={{ antialias: true, alpha: true }}
+    >
+      <Suspense fallback={null}>
+        <CameraRig />
 
-        <ambientLight intensity={0.8} />
-        <directionalLight position={[3, 3, 3]} intensity={2.2} />
-        <pointLight position={[-3, -1, 2]} intensity={1.2} color="#38bdf8" />
+        <ambientLight intensity={0.45} />
+        <pointLight position={[5, 5, 5]} intensity={1} color="#3b82f6" />
+        <pointLight position={[-5, -3, 2]} intensity={0.7} color="#8b5cf6" />
+        <directionalLight position={[0, 8, 4]} intensity={0.6} />
 
-        <Stars
-          radius={60}
-          depth={30}
-          count={800}
-          factor={2}
-          saturation={0}
-          fade
-        />
+        <Float speed={1.2} rotationIntensity={0.25} floatIntensity={0.5}>
+          <Laptop />
+        </Float>
 
-        <Particles />
-        <GroundRing />
-        <CoreOrb />
+        <Phone />
+        <GlowBlob />
+        <Particles count={220} />
 
-        <OrbitControls
-          enableZoom={false}
-          enablePan={false}
-          autoRotate
-          autoRotateSpeed={0.7}
-        />
-      </Canvas>
-    </div>
-  );
+        <Environment preset="city" />
+      </Suspense>
+    </Canvas>
+  )
 }
