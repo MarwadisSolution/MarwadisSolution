@@ -1,125 +1,73 @@
-/* Reset */
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0f172a;
-  color: white;
-}
-
-/* Container */
-.container {
-  text-align: center;
-}
-
-/* Navbar */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
   background: #020617;
+  color: white;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
 }
 
-.navbar h1 {
-  margin: 0;
+.app {
+  width: 100%;
+  min-height: 100vh;
 }
 
-.navbar a {
-  margin: 0 10px;
-  color: #38bdf8;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.navbar a:hover {
-  text-decoration: underline;
-}
-
-/* Hero */
 .hero {
-  padding: 100px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 60px;
+  min-height: 100vh;
 }
 
-.hero h2 {
-  font-size: 2.5rem;
+.left {
+  width: 45%;
+  z-index: 2;
 }
 
-.hero p {
-  max-width: 600px;
-  margin: 20px auto;
+.left h1 {
+  font-size: 64px;
+  margin-bottom: 20px;
 }
 
-.hero button {
-  padding: 12px 25px;
-  background: #38bdf8;
+.left p {
+  font-size: 20px;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+.left button {
+  margin-top: 20px;
+  padding: 14px 28px;
+  background: #3b82f6;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
+  color: white;
   cursor: pointer;
   font-size: 16px;
 }
 
-.hero button:hover {
-  background: #0ea5e9;
+.right {
+  width: 55%;
+  height: 100vh;
 }
 
-/* Sections */
-.services,
-.portfolio,
-.contact {
-  padding: 60px 20px;
-}
+/* Mobile */
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+    padding: 20px;
+  }
 
-/* Cards */
-.cards {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
+  .left,
+  .right {
+    width: 100%;
+  }
 
-.card {
-  padding: 20px;
-  background: #1e293b;
-  border-radius: 10px;
-  width: 200px;
-}
+  .left h1 {
+    font-size: 42px;
+  }
 
-/* Portfolio */
-.portfolio-card {
-  background: #1e293b;
-  margin: 20px auto;
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 500px;
-}
-
-.links a {
-  margin: 10px;
-  color: #38bdf8;
-}
-
-/* Contact */
-.contact input,
-.contact textarea {
-  display: block;
-  width: 300px;
-  margin: 10px auto;
-  padding: 10px;
-  border-radius: 5px;
-  border: none;
-}
-
-.contact button {
-  padding: 10px 20px;
-  background: #38bdf8;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-/* Footer */
-.footer {
-  padding: 20px;
-  background: #020617;
-  margin-top: 40px;
+  .right {
+    height: 500px;
+  }
 }
