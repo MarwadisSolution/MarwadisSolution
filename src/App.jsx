@@ -1,111 +1,25 @@
 import React from "react";
+import Scene3D from "./components/Scene3D";
 import "./App.css";
 
 export default function App() {
   return (
-    <div className="container">
-      {/* Navbar */}
-      <header className="navbar">
-        <h1>Marwadis Solution</h1>
-        <nav>
-          <a href="#home">Home</a>
-          <a href="#services">Services</a>
-          <a href="#portfolio">Portfolio</a>
-          <a href="#contact">Contact</a>
-        </nav>
-      </header>
+    <div className="app">
+      <div className="hero">
+        <div className="left">
+          <h1>Marwadis Solution</h1>
 
-      {/* Hero Section */}
-      <section id="home" className="hero">
-        <h2>Building Apps, Websites & AI Solutions</h2>
-        <p>
-          We have successfully delivered 50+ projects across India. We build
-          scalable apps, websites, AI & cloud solutions.
-        </p>
-        <button onClick={() => (window.location.href = "#contact")}>
-          Get Started
-        </button>
-      </section>
+          <p>
+            Building Apps, Websites, AI & Cloud Solutions for businesses.
+          </p>
 
-      {/* Services */}
-      <section id="services" className="services">
-        <h2>Our Services</h2>
-        <div className="cards">
-          <div className="card">App Development</div>
-          <div className="card">Website Development</div>
-          <div className="card">AI Solutions</div>
-          <div className="card">Cloud Services</div>
-        </div>
-      </section>
-
-      {/* Portfolio */}
-      <section id="portfolio" className="portfolio">
-        <h2>Our Portfolio</h2>
-
-        <div className="portfolio-card">
-          <h3>Order@VPA - Ayush Jain (Bangalore)</h3>
-          <p>Pharmacy App</p>
-          <div className="links">
-            <a
-              href="https://play.google.com/store/apps/details?id=com.pharmacompany.ordervpa"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Play Store
-            </a>
-            <a
-              href="https://apps.apple.com/in/app/order-vpa/id6755127591"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              App Store
-            </a>
-          </div>
+          <button>Get Started</button>
         </div>
 
-        <div className="portfolio-card">
-          <h3>Website - Stuti Kalantri (Pune)</h3>
-          <p>Business Website Project</p>
+        <div className="right">
+          <Scene3D />
         </div>
-      </section>
-
-      {/* Contact */}
-      <section id="contact" className="contact">
-        <h2>Contact Us</h2>
-        <p>Phone: 9552936422</p>
-        <p>Email: marwadiservices@outlook.com</p>
-        <p>
-          LinkedIn:{" "}
-          <a
-            href="https://www.linkedin.com/in/marwadi-solution/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Profile
-          </a>
-        </p>
-
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            const name = e.target.name.value;
-            const message = e.target.message.value;
-
-            window.open(
-              `https://wa.me/919552936422?text=Hello, I am ${name}. ${message}`
-            );
-          }}
-        >
-          <input name="name" placeholder="Your Name" required />
-          <textarea name="message" placeholder="Your Message" required />
-          <button type="submit">Send on WhatsApp</button>
-        </form>
-      </section>
-
-      {/* Footer */}
-      <footer className="footer">
-        <p>© 2026 Marwadis Solution. All rights reserved.</p>
-      </footer>
+      </div>
     </div>
   );
 }
