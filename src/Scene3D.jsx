@@ -4,10 +4,9 @@ import {
   Environment,
   RoundedBox,
   Sphere,
-  MeshDistortMaterial,
 } from "@react-three/drei";
 
-import { useRef, useMemo, Suspense } from "react";
+import { MeshDistortMaterial } from "@react-three/drei";
 
 /* Laptop */
 function Laptop() {
