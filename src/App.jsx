@@ -10,10 +10,10 @@ export default function App() {
         <h1>Marwadis Solution</h1>
 
         <nav>
-          <a href="#home">Home</a>
-          <a href="#services">Services</a>
-          <a href="#portfolio">Portfolio</a>
-          <a href="#contact">Contact</a>
+          <a href="#Home">Home</a>
+          <a href="#s=Services">Services</a>
+          <a href="#Portfolio">Portfolio</a>
+          <a href="#Contact">Contact</a>
         </nav>
       </header>
 
