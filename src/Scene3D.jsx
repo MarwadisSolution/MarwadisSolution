@@ -1,125 +1,227 @@
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import React, {
+  Suspense,
+  useMemo,
+  useRef,
+} from "react";
+
+import {
+  Canvas,
+  useFrame,
+  useThree,
+} from "@react-three/fiber";
+
 import {
   Float,
-  Environment,
   RoundedBox,
   Sphere,
+  MeshDistortMaterial,
 } from "@react-three/drei";
 
-import { MeshDistortMaterial } from "@react-three/drei";
-
-/* Laptop */
+/* =========================
+   Laptop
+========================= */
 function Laptop() {
   const group = useRef();
 
   useFrame((state) => {
     if (group.current) {
       group.current.rotation.y =
-        Math.sin(state.clock.elapsedTime * 0.4) * 0.25;
+        Math.sin(state.clock.elapsedTime * 0.5) * 0.3;
+
+      group.current.position.y =
+        Math.sin(state.clock.elapsedTime * 1.2) * 0.08;
     }
   });
 
   return (
-    <group ref={group} position={[0, -0.3, 0]}>
-      <RoundedBox args={[3, 0.18, 2]} radius={0.06}>
+    <group ref={group} position={[0, -0.4, 0]}>
+      {/* Base */}
+      <RoundedBox
+        args={[3, 0.2, 2]}
+        radius={0.08}
+        smoothness={4}
+      >
         <meshStandardMaterial
-          color="#1a1f3a"
-          metalness={0.85}
-          roughness={0.25}
+          color="#1e293b"
+          metalness={1}
+          roughness={0.2}
         />
       </RoundedBox>
 
-      <group position={[0, 1.05, -0.95]} rotation={[-0.18, 0, 0]}>
-        <RoundedBox args={[3, 2, 0.1]} radius={0.06}>
+      {/* Keyboard */}
+      <mesh position={[0, 0.11, 0.15]}>
+        <planeGeometry args={[2.5, 1.3]} />
+
+        <meshStandardMaterial
+          color="#0f172a"
+          metalness={0.7}
+          roughness={0.4}
+        />
+      </mesh>
+
+      {/* Screen */}
+      <group
+        position={[0, 1.05, -0.9]}
+        rotation={[-0.18, 0, 0]}
+      >
+        <RoundedBox
+          args={[3, 2, 0.1]}
+          radius={0.06}
+          smoothness={4}
+        >
           <meshStandardMaterial
-            color="#1a1f3a"
-            metalness={0.85}
-            roughness={0.25}
+            color="#1e293b"
+            metalness={1}
+            roughness={0.2}
           />
         </RoundedBox>
 
+        {/* Screen glow */}
         <mesh position={[0, 0, 0.06]}>
-          <planeGeometry args={[2.85, 1.85]} />
+          <planeGeometry args={[2.8, 1.8]} />
 
           <meshStandardMaterial
-            color="#3b82f6"
+            color="#2563eb"
             emissive="#3b82f6"
-            emissiveIntensity={0.7}
+            emissiveIntensity={1.5}
           />
         </mesh>
+
+        {/* Fake code lines */}
+        {[...Array(8)].map((_, i) => (
+          <mesh
+            key={i}
+            position={[
+              -0.8 + Math.random() * 0.3,
+              0.7 - i * 0.22,
+              0.07,
+            ]}
+          >
+            <planeGeometry
+              args={[1 + Math.random(), 0.04]}
+            />
+
+            <meshBasicMaterial color="#dbeafe" />
+          </mesh>
+        ))}
       </group>
     </group>
   );
 }
 
-/* Phone */
+/* =========================
+   Phone
+========================= */
 function Phone() {
-  return (
-    <Float speed={1.8}>
-      <group position={[2.6, 0.9, 0.6]} rotation={[0.1, -0.45, 0.18]}>
-        <RoundedBox args={[0.8, 1.6, 0.09]} radius={0.09}>
-          <meshStandardMaterial
-            color="#0a0e1a"
-            metalness={0.9}
-            roughness={0.15}
-          />
-        </RoundedBox>
-
-        <mesh position={[0, 0, 0.05]}>
-          <planeGeometry args={[0.7, 1.5]} />
-
-          <meshStandardMaterial
-            color="#60a5fa"
-            emissive="#3b82f6"
-            emissiveIntensity={0.6}
-          />
-        </mesh>
-      </group>
-    </Float>
-  );
-}
-
-/* Blob */
-function GlowBlob() {
-  return (
-    <Float speed={1}>
-      <Sphere args={[0.7, 64, 64]} position={[-2.7, 0.6, -1]}>
-        <MeshDistortMaterial
-          color="#3b82f6"
-          emissive="#1e40af"
-          emissiveIntensity={0.6}
-          distort={0.45}
-          speed={2}
-        />
-      </Sphere>
-    </Float>
-  );
-}
-
-/* Particles */
-function Particles({ count = 200 }) {
-  const mesh = useRef();
-
-  const positions = useMemo(() => {
-    const arr = new Float32Array(count * 3);
-
-    for (let i = 0; i < count; i++) {
-      arr[i * 3] = (Math.random() - 0.5) * 16;
-      arr[i * 3 + 1] = (Math.random() - 0.5) * 10;
-      arr[i * 3 + 2] = (Math.random() - 0.5) * 10;
-    }
-
-    return arr;
-  }, [count]);
+  const phone = useRef();
 
   useFrame((state) => {
-    if (mesh.current) {
-      mesh.current.rotation.y = state.clock.elapsedTime * 0.04;
+    if (phone.current) {
+      phone.current.rotation.y =
+        Math.sin(state.clock.elapsedTime) * 0.4;
+
+      phone.current.position.y =
+        0.8 + Math.sin(state.clock.elapsedTime * 2) * 0.15;
     }
   });
 
   return (
-    <points ref={mesh}>
+    <group
+      ref={phone}
+      position={[2.8, 1, 0.5]}
+      rotation={[0.2, -0.5, 0.15]}
+    >
+      <RoundedBox
+        args={[0.8, 1.6, 0.08]}
+        radius={0.08}
+      >
+        <meshStandardMaterial
+          color="#0f172a"
+          metalness={1}
+          roughness={0.2}
+        />
+      </RoundedBox>
+
+      <mesh position={[0, 0, 0.045]}>
+        <planeGeometry args={[0.7, 1.45]} />
+
+        <meshStandardMaterial
+          color="#60a5fa"
+          emissive="#2563eb"
+          emissiveIntensity={1}
+        />
+      </mesh>
+
+      {/* Notch */}
+      <mesh position={[0, 0.66, 0.05]}>
+        <planeGeometry args={[0.22, 0.05]} />
+        <meshBasicMaterial color="#000" />
+      </mesh>
+    </group>
+  );
+}
+
+/* =========================
+   Blob
+========================= */
+function GlowBlob() {
+  const blob = useRef();
+
+  useFrame((state) => {
+    if (blob.current) {
+      blob.current.rotation.y += 0.01;
+
+      blob.current.position.y =
+        Math.sin(state.clock.elapsedTime * 1.5) * 0.2;
+    }
+  });
+
+  return (
+    <group ref={blob}>
+      <Sphere
+        args={[0.8, 64, 64]}
+        position={[-3, 0.8, -1]}
+      >
+        <MeshDistortMaterial
+          color="#3b82f6"
+          emissive="#1d4ed8"
+          emissiveIntensity={1}
+          distort={0.45}
+          speed={2}
+          roughness={0.2}
+        />
+      </Sphere>
+    </group>
+  );
+}
+
+/* =========================
+   Particles
+========================= */
+function Particles({ count = 250 }) {
+  const points = useRef();
+
+  const positions = useMemo(() => {
+    const pos = new Float32Array(count * 3);
+
+    for (let i = 0; i < count; i++) {
+      pos[i * 3] = (Math.random() - 0.5) * 18;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 10;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 10;
+    }
+
+    return pos;
+  }, [count]);
+
+  useFrame((state) => {
+    if (points.current) {
+      points.current.rotation.y =
+        state.clock.elapsedTime * 0.03;
+    }
+  });
+
+  return (
+    <points ref={points}>
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
@@ -130,24 +232,27 @@ function Particles({ count = 200 }) {
       </bufferGeometry>
 
       <pointsMaterial
-        size={0.045}
+        size={0.05}
         color="#93c5fd"
         transparent
-        opacity={0.85}
+        opacity={0.8}
       />
     </points>
   );
 }
 
-/* Camera */
+/* =========================
+   Camera Animation
+========================= */
 function CameraRig() {
   const { camera, mouse } = useThree();
 
   useFrame(() => {
-    camera.position.x += (mouse.x * 0.6 - camera.position.x) * 0.05;
+    camera.position.x +=
+      (mouse.x * 0.8 - camera.position.x) * 0.04;
 
     camera.position.y +=
-      (1 + mouse.y * 0.4 - camera.position.y) * 0.05;
+      (1 + mouse.y * 0.5 - camera.position.y) * 0.04;
 
     camera.lookAt(0, 0.2, 0);
   });
@@ -155,33 +260,47 @@ function CameraRig() {
   return null;
 }
 
-/* Main */
+/* =========================
+   Main Scene
+========================= */
 export default function Scene3D() {
   return (
     <Canvas
-      camera={{ position: [0, 1, 6.5], fov: 45 }}
+      camera={{
+        position: [0, 1, 7],
+        fov: 45,
+      }}
       dpr={[1, 2]}
     >
       <Suspense fallback={null}>
         <CameraRig />
 
-        <ambientLight intensity={0.45} />
+        {/* Lights */}
+        <ambientLight intensity={0.5} />
 
         <pointLight
           position={[5, 5, 5]}
-          intensity={1}
+          intensity={2}
           color="#3b82f6"
         />
 
         <pointLight
           position={[-5, -3, 2]}
-          intensity={0.7}
+          intensity={1}
           color="#8b5cf6"
         />
 
-        <directionalLight position={[0, 8, 4]} intensity={0.6} />
+        <directionalLight
+          position={[0, 8, 4]}
+          intensity={1}
+        />
 
-        <Float speed={1.2}>
+        {/* Objects */}
+        <Float
+          speed={1.2}
+          rotationIntensity={0.4}
+          floatIntensity={0.6}
+        >
           <Laptop />
         </Float>
 
@@ -189,9 +308,7 @@ export default function Scene3D() {
 
         <GlowBlob />
 
-        <Particles count={220} />
-
-        <Environment preset="city" />
+        <Particles count={250} />
       </Suspense>
     </Canvas>
   );
